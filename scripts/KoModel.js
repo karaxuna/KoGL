@@ -28,16 +28,13 @@
 
 		draw: function(shaderProgram){
 			var self = this,
-				gl = self.gl;
+				gl = self.gl,
+				verticesBuffer = self.verticesBuffer;
 
-			var buffer = gl.createBuffer();
-			gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(self.verticesBuffer.vertices), gl.STATIC_DRAW);
-
-			gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+			verticesBuffer.init();
 			gl.vertexAttribPointer(shaderProgram.attributes.aVertexPosition, self.verticesBuffer.itemSize, gl.FLOAT, false, 0, 0);
 			gl.uniformMatrix4fv(shaderProgram.uniforms.uMVMatrix, false, self.mvMatrix);
-			gl.drawArrays(gl.TRIANGLE_STRIP, 0, self.verticesBuffer.numItems);
+			verticesBuffer.draw();
 		}
 
 	}, [Array]);
