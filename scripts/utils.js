@@ -261,5 +261,12 @@ var utils = {
 
     toRadians: function(degrees){
         return degrees * (Math.PI/180);
+    },
+
+    chain: function(fn){
+        return function(){
+            fn.apply(this, arguments);
+            return this;
+        };
     }
 };

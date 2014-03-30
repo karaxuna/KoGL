@@ -55,7 +55,7 @@
 			var shaderProgram = self.shaderProgram = new KoShaderProgram(gl);
 			shaderProgram.addFragmentShader(fssid);
 			shaderProgram.addVertexShader(vssid);
-			shaderProgram.useProgram(['aVertexPosition'], ['uPMatrix', 'uMVMatrix']);
+			shaderProgram.useProgram(['aVertexPosition', 'aVertexColor'], ['uPMatrix', 'uMVMatrix']);
 		}
 
 	}, [Array]);
