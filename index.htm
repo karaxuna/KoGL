@@ -1,0 +1,96 @@
+<html>
+	<head>
+		<script type="text/javascript" src="./scripts/gl-matrix.js"></script>
+		<script type="text/javascript" src="./scripts/utils.js"></script>
+		<script type="text/javascript" src="./scripts/KoBuffers/KoBaseBuffer.js"></script>
+		<script type="text/javascript" src="./scripts/KoBuffers/KoArrayBuffer.js"></script>
+		<script type="text/javascript" src="./scripts/KoBuffers/KoElementArrayBuffer.js"></script>
+		<script type="text/javascript" src="./scripts/KoShader.js"></script>
+		<script type="text/javascript" src="./scripts/KoShaderProgram.js"></script>
+		<script type="text/javascript" src="./scripts/KoModel.js"></script>
+		<script type="text/javascript" src="./scripts/KoGL.js"></script>
+	</head>
+	<body>
+		<canvas id="glcanvas" width="640" height="480">
+		    Your browser doesn't appear to support the HTML5 <code>&lt;canvas&gt;</code> element.
+		</canvas>
+
+		<script id="shader-fs" type="x-shader/x-fragment">
+			varying lowp vec4 vColor;
+    	
+		    void main(void) {
+		    	gl_FragColor = vColor;
+		    }
+		</script>
+
+		<script id="shader-vs" type="x-shader/x-vertex">
+			attribute vec3 aVertexPosition;
+			attribute vec4 aVertexColor;
+			
+			uniform mat4 uMVMatrix;
+			uniform mat4 uPMatrix;
+			
+			varying lowp vec4 vColor;
+			
+			void main(void) {
+				gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+				vColor = vec4(1, 1, 1, 1); //aVertexColor;
+			}
+		</script>
+
+		<script type="text/javascript">
+			var canvas = document.getElementById('glcanvas');
+			var koGL = new KoGL(canvas);
+			koGL.initShaderProgram('shader-fs', 'shader-vs');
+			koGL.setCamera();
+
+			var cube = koGL.createModel();
+			cube.initVerticesBuffer([
+				// Front face
+			    -1.0, -1.0,  1.0,
+			     1.0, -1.0,  1.0,
+			     1.0,  1.0,  1.0,
+			    -1.0,  1.0,  1.0,
+			    
+			    // Back face
+			    -1.0, -1.0, -1.0,
+			    -1.0,  1.0, -1.0,
+			     1.0,  1.0, -1.0,
+			     1.0, -1.0, -1.0,
+			    
+			    // Top face
+			    -1.0,  1.0, -1.0,
+			    -1.0,  1.0,  1.0,
+			     1.0,  1.0,  1.0,
+			     1.0,  1.0, -1.0,
+			    
+			    // Bottom face
+			    -1.0, -1.0, -1.0,
+			     1.0, -1.0, -1.0,
+			     1.0, -1.0,  1.0,
+			    -1.0, -1.0,  1.0,
+			    
+			    // Right face
+			     1.0, -1.0, -1.0,
+			     1.0,  1.0, -1.0,
+			     1.0,  1.0,  1.0,
+			     1.0, -1.0,  1.0,
+			    
+			    // Left face
+			    -1.0, -1.0, -1.0,
+			    -1.0, -1.0,  1.0,
+			    -1.0,  1.0,  1.0,
+			    -1.0,  1.0, -1.0
+			], 3, 24);
+
+			koGL.addModel(cube);
+			cube.translate([-0.0, 0.0, -6.0]);
+
+			setInterval(function(){
+				cube.rotate(-1, [0, 1, 0]);
+				koGL.clearScene();
+				koGL.drawScene();
+			}, 10);
+		</script>
+	</body>
+</html>
