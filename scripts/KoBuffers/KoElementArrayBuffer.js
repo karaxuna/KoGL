@@ -11,7 +11,7 @@
 			var self = this,
 				gl = self.gl;
 
-			gl.drawElements(gl.TRIANGLES, self.itemSize, gl.UNSIGNED_SHORT, 0);
+			gl.drawElements(gl.TRIANGLES, self.vertices.length, gl.UNSIGNED_SHORT, 0);
 		}),
 
 		fill: utils.chain(function(){
