@@ -27,6 +27,11 @@
 			self.verticesBuffer = new KoArrayBuffer(self.gl, vertices, itemSize);
 		},
 
+		initVerticesIndexBuffer: function(vertices, itemSize){
+			var self = this;
+			self.verticesIndexBuffer = new KoElementArrayBuffer(self.gl, vertices, itemSize);
+		},
+
 		initVerticesColorBuffer: function(vertices, itemSize){
 			var self = this;
 			self.verticesColorBuffer = new KoArrayBuffer(self.gl, vertices, itemSize);
@@ -36,15 +41,18 @@
 			var self = this,
 				gl = self.gl,
 				verticesColorBuffer = self.verticesColorBuffer,
+				verticesIndexBuffer = self.verticesIndexBuffer,
 				verticesBuffer = self.verticesBuffer;
 
-			verticesColorBuffer.init();
+			verticesColorBuffer.bind();
 			gl.vertexAttribPointer(shaderProgram.attributes.aVertexColor, self.verticesColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-			verticesBuffer.init();
+			verticesBuffer.bind();
 			gl.vertexAttribPointer(shaderProgram.attributes.aVertexPosition, self.verticesBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+			verticesIndexBuffer.bind();
 			gl.uniformMatrix4fv(shaderProgram.uniforms.uMVMatrix, false, self.mvMatrix);
-			verticesBuffer.draw();
+			verticesIndexBuffer.draw();
 		}
 
 	}, [Array]);

@@ -7,12 +7,19 @@
 
 	utils.extend(KoElementArrayBuffer.prototype = Object.create(KoBaseBuffer.prototype), {
 
-		draw: function(){
+		draw: utils.chain(function(){
 			var self = this,
 				gl = self.gl;
 
-			gl.drawElements(gl.TRIANGLES, self.numItems, gl.UNSIGNED_SHORT, 0);
-		}
+			gl.drawElements(gl.TRIANGLES, self.itemSize, gl.UNSIGNED_SHORT, 0);
+		}),
+
+		fill: utils.chain(function(){
+			var self = this,
+				gl = self.gl;
+
+			gl.bufferData(self.type, new Uint16Array(self.vertices), gl.STATIC_DRAW);
+		})
 
 	}, [Array]);
 

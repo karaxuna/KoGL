@@ -44,86 +44,50 @@
 			koGL.initShaderProgram('shader-fs', 'shader-vs');
 			koGL.setCamera();
 
-			var cube = koGL.createModel();
+			function init(data){
+				var suzanne = koGL.createModel();
+				suzanne.initVerticesBuffer(data.vertices, 3);
+				suzanne.initVerticesColorBuffer(data.colors, 4);
+				suzanne.initVerticesIndexBuffer(data.indices, 3);
 
-			cube.initVerticesBuffer([
-			    // Front face
-		      -1.0, -1.0,  1.0,
-		       1.0, -1.0,  1.0,
-		      -1.0,  1.0,  1.0,
-		       1.0,  1.0,  1.0,
+				koGL.addModel(suzanne);
+				suzanne.translate([0.0, 0.0, -6.0]);
 
-		      // Back face
-		      -1.0, -1.0, -1.0,
-		       1.0, -1.0, -1.0,
-		      -1.0,  1.0, -1.0,
-		       1.0,  1.0, -1.0,
+				setInterval(function(){
+					koGL.clearScene();
+					koGL.drawScene();
+				}, 10);
 
-		      // Top face
-		      -1.0,  1.0, -1.0,
-		      -1.0,  1.0,  1.0,
-		       1.0,  1.0, -1.0,
-			   1.0,  1.0,  1.0,
+				var mouse = {};
+				canvas.addEventListener('mousedown', function(){
+					mouse.down = true;
+				});
 
-		      // Bottom face
-		      -1.0, -1.0, -1.0,
-		      -1.0, -1.0,  1.0,
-		       1.0, -1.0, -1.0,
-			   1.0, -1.0,  1.0,
+				canvas.addEventListener('mouseup', function(){
+					mouse.down = false;
+				});
 
-		      // Right face
-		       1.0, -1.0, -1.0,
-		       1.0,  1.0, -1.0,
-		       1.0, -1.0,  1.0,
-			   1.0,  1.0,  1.0,
+				canvas.addEventListener('mousemove', function(e){
+					var x = mouse.x = e.pageX - this.offsetLeft;
+	            	var y = mouse.y = e.pageY - this.offsetTop;
+	            	var movement = {
+	            		x: e.webkitMovementX,
+	            		y: e.webkitMovementY
+	            	};
 
-		      // Left face
-		      -1.0, -1.0, -1.0,
-		      -1.0, -1.0,  1.0,
-		      -1.0,  1.0, -1.0,
-		      -1.0,  1.0,  1.0,	
-			], 3);
+	            	if(mouse.down){
+		            	suzanne.rotate(movement.x, [0, 1, 0]);
+		            	suzanne.rotate(movement.y, [1, 0, 0]);
+		            }
+				});
 
-			cube.initVerticesColorBuffer([
-			    1, 1, 1, 1,
-			    1, 1, 1, 1,
-			    1, 1, 1, 1,
-			    1, 1, 1, 1,
-
-			    1, 0, 0, 1,
-			    1, 0, 0, 1,
-			    1, 0, 0, 1,
-			    1, 0, 0, 1,
-
-			    0, 1, 0, 1,
-			    0, 1, 0, 1,
-			    0, 1, 0, 1,
-			    0, 1, 0, 1,
-
-			    0, 0, 1, 1,
-			    0, 0, 1, 1,
-			    0, 0, 1, 1,
-			    0, 0, 1, 1,
-
-			    1, 1, 0, 1,
-			    1, 1, 0, 1,
-			    1, 1, 0, 1,
-			    1, 1, 0, 1,
-
-			    1, 0, 1, 1,
-			    1, 0, 1, 1,
-			    1, 0, 1, 1,
-			    1, 0, 1, 1
-			], 4);
-
-			koGL.addModel(cube);
-			cube.translate([0.0, 0.0, -6.0]);
-
-			setInterval(function(){
-				cube.rotate(-1, [5, 5, 1]);
-				koGL.clearScene();
-				koGL.drawScene();
-			}, 10);
+				canvas.addEventListener('mousewheel', function(e){
+					suzanne.translate([0.0, 0.0, e.deltaY / 100]);
+				});
+			}
 		</script>
+
+		<!-- models -->
+		<script type="text/javascript" src="./models/suzanne.js"></script>
 	</body>
 </html>
