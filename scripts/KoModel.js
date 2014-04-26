@@ -40,15 +40,10 @@
 		draw: function(shaderProgram){
 			var self = this,
 				gl = self.gl,
-				verticesColorBuffer = self.verticesColorBuffer,
-				verticesIndexBuffer = self.verticesIndexBuffer,
-				verticesBuffer = self.verticesBuffer;
+				verticesIndexBuffer = self.verticesIndexBuffer;
 
-			verticesColorBuffer.bind();
-			gl.vertexAttribPointer(shaderProgram.attributes.aVertexColor, self.verticesColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-			verticesBuffer.bind();
-			gl.vertexAttribPointer(shaderProgram.attributes.aVertexPosition, self.verticesBuffer.itemSize, gl.FLOAT, false, 0, 0);
+			shaderProgram.assignShaderAttribute('aVertexColor', self.verticesColorBuffer);
+			shaderProgram.assignShaderAttribute('aVertexPosition', self.verticesBuffer);
 
 			verticesIndexBuffer.bind();
 			gl.uniformMatrix4fv(shaderProgram.uniforms.uMVMatrix, false, self.mvMatrix);

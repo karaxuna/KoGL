@@ -50,6 +50,16 @@
 			});
 		},
 
+		assignShaderAttribute: function(name, buffer){
+			var self = this,
+				gl = self.gl,
+				attributes = self.attributes;
+
+			var attrLocation = attributes[name];
+			buffer.bind();
+			gl.vertexAttribPointer(attrLocation, buffer.itemSize, gl.FLOAT, false, 0, 0);
+		},
+
 		useProgram: function(attributes, uniforms){
 			var self = this,
 				gl = self.gl;
