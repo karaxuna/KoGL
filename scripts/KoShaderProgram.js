@@ -30,12 +30,16 @@
 			gl.attachShader(self.program, vertexShader.shader);
 		},
 
-		useProgram: function(attributes, uniforms){
+		linkProgram: function(){
 			var self = this,
 				gl = self.gl;
 
 			gl.linkProgram(self.program);
-			gl.useProgram(self.program);
+		},
+
+		bindShaderVariables : function(attributes, uniforms){
+			var self = this,
+				gl = self.gl;
 
 			utils.each(attributes, function(attribute){
 				self.bindShaderAttribute(attribute);
@@ -44,6 +48,13 @@
 			utils.each(uniforms, function(uniform){
 				self.bindShaderUniform(uniform);
 			});
+		},
+
+		useProgram: function(attributes, uniforms){
+			var self = this,
+				gl = self.gl;
+
+			gl.useProgram(self.program);
 		},
 
 		bindShaderAttribute: function(name){
