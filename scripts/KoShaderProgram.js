@@ -60,6 +60,13 @@
 			gl.vertexAttribPointer(attrLocation, buffer.itemSize, gl.FLOAT, false, 0, 0);
 		},
 
+		assignShaderUniform: function(name, matrix){
+			var self = this,
+				gl = self.gl;
+
+			gl.uniformMatrix4fv(self.uniforms[name], false, matrix);
+		},
+
 		useProgram: function(attributes, uniforms){
 			var self = this,
 				gl = self.gl;

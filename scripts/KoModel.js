@@ -44,9 +44,9 @@
 
 			shaderProgram.assignShaderAttribute('aVertexColor', self.verticesColorBuffer);
 			shaderProgram.assignShaderAttribute('aVertexPosition', self.verticesBuffer);
+			shaderProgram.assignShaderUniform('uMVMatrix', self.mvMatrix);
 
 			verticesIndexBuffer.bind();
-			gl.uniformMatrix4fv(shaderProgram.uniforms.uMVMatrix, false, self.mvMatrix);
 			verticesIndexBuffer.draw();
 		}
 
