@@ -13,7 +13,7 @@ var webpackConfig = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].js',
-        publicPath: '/'
+        publicPath: './'
     },
     module: {
         rules: [
@@ -79,7 +79,7 @@ var webpackConfig = {
         new HtmlWebpackPlugin({
             template: './src/demo/index.html',
             inject: true,
-            excludeChunks: ['angularified', 'komponents']
+            excludeChunks: ['KoGL']
         }),
         new ExtractTextPlugin({
             filename: 'komponents.css',
@@ -93,7 +93,8 @@ var webpackConfig = {
     ],
     devServer: {
         hot: true,
-        inline: true
+        inline: true,
+        contentBase: path.join(__dirname, 'dist')
     }
 };
 
