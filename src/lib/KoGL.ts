@@ -1,63 +1,52 @@
 import { mat4 } from 'gl-matrix';
 import KoShaderProgram from './KoShaderProgram';
 import KoModel from './KoModel';
+import Mouse from './Mouse';
 
 class KoGL {
 	gl: WebGLRenderingContext;
 	pMatrix;
 	models;
 	shaderProgram: KoShaderProgram;
+	mouse: Mouse;
 
 	constructor(canvas) {
 		this.gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
 		this.pMatrix = mat4.create();
 		this.models = [];
 		this.shaderProgram;
+		this.mouse = new Mouse(canvas);
 
 		this.gl.enable(this.gl.DEPTH_TEST);
 		this.gl.depthFunc(this.gl.LEQUAL);
 	}
 
 	addModel = (model) => {
-		var self = this;
-		self.models.push(model);
+		this.models.push(model);
 	}
 
 	createModel = () => {
-		var self = this;
-		return new KoModel(self.gl);
+		return new KoModel(this.gl);
 	}
 
 	clearScene = () => {
-		var self = this,
-			gl = self.gl;
-
-		gl.clearColor(0.0, 0.0, 0.0, 1.0);
-		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+		this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 	}
 
 	setCamera = () => {
-		var self = this,
-			gl = self.gl;
-
-		mat4.perspective(self.pMatrix, 45, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
-		gl.uniformMatrix4fv(self.shaderProgram.uniforms.uPMatrix, false, self.pMatrix);
+		mat4.perspective(this.pMatrix, 45, this.gl.canvas.width / this.gl.canvas.height, 0.1, 100.0);
+		this.gl.uniformMatrix4fv(this.shaderProgram.uniforms.uPMatrix, false, this.pMatrix);
 	}
 
 	drawScene = () => {
-		var self = this,
-			gl = self.gl;
-
-		self.models.forEach(function (model) {
-			model.draw(self.shaderProgram);
+		this.models.forEach(function (model) {
+			model.draw(this.shaderProgram);
 		});
 	}
 
 	initShaderProgram = (fragmentShaderCode, vertexShaderCode) => {
-		var self = this,
-			gl = self.gl;
-
-		var shaderProgram = self.shaderProgram = new KoShaderProgram(gl);
+		let shaderProgram = this.shaderProgram = new KoShaderProgram(this.gl);
 		shaderProgram.addFragmentShader(fragmentShaderCode);
 		shaderProgram.addVertexShader(vertexShaderCode);
 		shaderProgram.linkProgram();
