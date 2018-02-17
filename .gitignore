@@ -1,0 +1,9 @@
+node_modules/
+npm-debug.log
+.idea/komponents.iml
+.idea/jsLibraryMappings.xml
+.idea/workspace.xml
+.idea/watcherTasks.xml
+.idea/vcs.xml
+.idea/modules.xml
+.idea/libraries/tsconfig_roots.xml
