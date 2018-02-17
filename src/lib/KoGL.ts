@@ -40,7 +40,7 @@ class KoGL {
 	}
 
 	drawScene = () => {
-		this.models.forEach(function (model) {
+		this.models.forEach(model => {
 			model.draw(this.shaderProgram);
 		});
 	}

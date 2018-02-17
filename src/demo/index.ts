@@ -37,7 +37,7 @@ let vertexShaderCode = `
 koGL.initShaderProgram(fragmentShaderCode, vertexShaderCode);
 koGL.setCamera();
 
-var suzanne = koGL.createModel();
+let suzanne = koGL.createModel();
 suzanne.initVerticesBuffer(data.vertices, 3);
 suzanne.initVerticesColorBuffer(data.colors, 4);
 suzanne.initVerticesIndexBuffer(data.indices, 3);

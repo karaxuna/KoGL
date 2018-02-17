@@ -94,7 +94,7 @@ var webpackConfig = {
     devServer: {
         hot: true,
         inline: true,
-        contentBase: path.join(__dirname, 'dist')
+        publicPath: '/'
     }
 };
 
